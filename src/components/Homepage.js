@@ -281,6 +281,7 @@ export default function Homepage(props) {
 
 				<Fab
 					color="primary"
+					variant="extended"
 					aria-label="edit"
 					onClick={(e) => {
 						e.preventDefault();
@@ -288,13 +289,16 @@ export default function Homepage(props) {
 					}}
 					style={{
 						margin: 0,
+						gap: "3px",
 						top: "auto",
-						right: 30,
+						right: 25,
 						bottom: 20,
 						left: "auto",
 						position: "fixed",
+						width: "fit-content",
 					}}
 				>
+					Edit Types
 					<EditIcon />
 				</Fab>
 
