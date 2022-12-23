@@ -41,6 +41,7 @@ export default function Homepage(props) {
 	const [todos, setTodos] = useState([]);
 	const [type, setType] = useState("");
 	const [types, setTypes] = useState([]);
+	const [newType, setNewType] = useState("");
 	const [value, setValue] = useState(0);
 	const [todoTime, setToDoTime] = useState(new Date());
 	const [todoEndTime, setToDoEndTime] = useState(new Date());
@@ -133,6 +134,17 @@ export default function Homepage(props) {
 			"Personal",
 			"Assignment",
 		]);
+	};
+
+	const writeTypesToDatabase = () => {
+		if (newType === "") return;
+		setTypes([...types, newType]);
+		set(ref(db, `/type/${auth.currentUser.uid}`), [...types, newType]);
+		setNewType("");
+	};
+
+	const updateDeletedTypes = () => {
+		set(ref(db, `/type/${auth.currentUser.uid}`), [...types]);
 	};
 
 	const handleChange = (event, newValue) => {
@@ -245,6 +257,61 @@ export default function Homepage(props) {
 							</span>
 						</div>
 
+						<div
+							style={{
+								top: "0",
+								position: "relative",
+								width: "100%",
+								height: "70px",
+								margin: "0 auto",
+							}}
+						>
+							<FormControl sx={{ mr: 1, width: "100%" }} variant="filled">
+								<InputLabel
+									style={{
+										fontSize: "16px",
+										color: "black",
+										fontFamily: "Roboto",
+									}}
+								>
+									New Task Type
+								</InputLabel>
+								<FilledInput
+									style={{
+										position: "absolute",
+										height: "70px",
+										width: "100%",
+										fontSize: "25px",
+										margin: "0 auto",
+										borderRadius: "16px 0px 16px 0px",
+										backgroundColor: "lightgrey",
+									}}
+									maxRows={1}
+									type="text"
+									value={newType}
+									onChange={(e) => {
+										setNewType(e.target.value);
+									}}
+									endAdornment={
+										<>
+											<InputAdornment position="end">
+												{todo !== "" && (
+													<IconButton
+														aria-label="Add New Type"
+														onClick={writeTypesToDatabase}
+														onMouseDown={writeTypesToDatabase}
+														edge="end"
+													>
+														<AddIcon />
+													</IconButton>
+												)}
+											</InputAdornment>
+										</>
+									}
+								/>
+							</FormControl>
+						</div>
+
 						<div style={{ width: "100%" }}>
 							<Stack spacing={1} sx={{ width: "80%", margin: "0 auto" }}>
 								{types.map
@@ -255,6 +322,7 @@ export default function Homepage(props) {
 													// remove the type from the types array
 													const newTypes = types.filter((t) => t !== type);
 													setTypes(newTypes);
+													updateDeletedTypes();
 												}}
 												color="primary"
 												variant="contained"
@@ -416,7 +484,7 @@ export default function Homepage(props) {
 							}}
 							renderInput={(params) => <TextField {...params} />}
 						/>
-						<FormControl sx={{ minWidth: "30%" }}>
+						<FormControl sx={{ minWidth: "25%" }}>
 							<InputLabel>Task Type</InputLabel>
 							<Select
 								sx={{ width: "100%", minWidth: "100%" }}
