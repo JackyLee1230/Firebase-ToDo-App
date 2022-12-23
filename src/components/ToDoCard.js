@@ -88,12 +88,38 @@ const ToDoCard = (props) => {
 						{todoItem.noTime === false &&
 						todoItem.value !== 100 &&
 						moment().isAfter(todoItem.endTime, "minute") ? (
-							<p style={{ color: "red" }}>&nbsp;&nbsp;Failed!</p>
+							<p
+								style={{
+									color: "red",
+									display: "flex",
+									flexDirection: "row",
+									alignItems: "center",
+								}}
+							>
+								&nbsp;&nbsp;Failed!
+								<p style={{ fontSize: "16px" }}>
+									{moment(todoItem.endTime).fromNow()}
+								</p>
+							</p>
 						) : todoItem.noTime === false && todoItem.value === 100 ? (
 							<p style={{ color: "green" }}>&nbsp;&nbsp;Success!</p>
 						) : (
-							<p style={{ color: "rgb(0, 153, 255)" }}>
+							<p
+								style={{
+									color: "rgb(0, 153, 255)",
+									display: "flex",
+									flexDirection: "row",
+									alignItems: "center",
+								}}
+							>
 								&nbsp;&nbsp;In Progress!
+								{!todoItem.noTime &&
+								moment().isSame(todoItem.endTime, "day") ? (
+									<div style={{ fontFamily: "Roboto", fontSize: "16px" }}>
+										Today is the Deadline:{" "}
+										{moment(todoItem.endTime).fromNow(true)}
+									</div>
+								) : null}
 							</p>
 						)}
 					</div>
@@ -115,6 +141,11 @@ const ToDoCard = (props) => {
 							<div style={{ fontFamily: "Roboto" }}>
 								End Time: {todoItem.endTime}
 							</div>
+							{!moment().isAfter(todoItem.endTime, "minute") ? (
+								<div style={{ fontFamily: "Roboto" }}>
+									Remaining Time: {moment(todoItem.endTime).fromNow(true)}
+								</div>
+							) : null}
 						</div>
 					) : (
 						<div
