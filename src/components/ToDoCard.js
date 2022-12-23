@@ -75,7 +75,7 @@ const ToDoCard = (props) => {
 						></Input>
 					</>
 				) : (
-					<div style={{ display: "flex", flexDirection: "row" }}>
+					<div style={{ display: "flex", flexDirection: "column" }}>
 						<div
 							style={{
 								fontWeight: "normal",
@@ -83,7 +83,10 @@ const ToDoCard = (props) => {
 								color: "black",
 							}}
 						>
-							Task: {todoItem.todo}
+							Task: {todoItem.todo}{" "}
+							{todoItem.type &&
+								todoItem.type !== "Unspecified" &&
+								`[${todoItem.type}]`}
 						</div>
 						{todoItem.noTime === false &&
 						todoItem.value !== 100 &&
@@ -101,7 +104,7 @@ const ToDoCard = (props) => {
 									{moment(todoItem.endTime).fromNow()}
 								</p>
 							</p>
-						) : todoItem.noTime === false && todoItem.value === 100 ? (
+						) : todoItem.value === 100 ? (
 							<p style={{ color: "green" }}>&nbsp;&nbsp;Success!</p>
 						) : (
 							<p

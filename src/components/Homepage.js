@@ -15,8 +15,17 @@ import {
 	FormControl,
 	InputLabel,
 	FilledInput,
+	Fab,
+	Modal,
+	Select,
+	MenuItem,
+	Chip,
 } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CloseIcon from "@mui/icons-material/Close";
 import Stack from "@mui/material/Stack";
 import Slider from "@mui/material/Slider";
 import Navbar from "./Navbar";
@@ -27,15 +36,20 @@ import CalendarMonthIcon from "@mui/icons-material/DateRange";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
-export default function Homepage() {
+export default function Homepage(props) {
 	const [todo, setTodo] = useState("");
 	const [todos, setTodos] = useState([]);
+	const [type, setType] = useState("");
+	const [types, setTypes] = useState([]);
 	const [value, setValue] = useState(0);
-	const [UUID, setUUID] = useState("");
 	const [todoTime, setToDoTime] = useState(new Date());
 	const [todoEndTime, setToDoEndTime] = useState(new Date());
 	const [endTimeError, setEndTimeError] = useState(false);
 	const navigate = useNavigate();
+
+	const [openType, setOpenType] = useState(false);
+	const handleOpenType = () => setOpenType(true);
+	const handleCloseType = () => setOpenType(false);
 
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
@@ -47,6 +61,24 @@ export default function Homepage() {
 						Object.values(data).map((todo) => {
 							setTodos((oldArray) => [todo, ...oldArray]);
 						});
+					}
+				});
+				onValue(ref(db, `/type/${auth.currentUser.uid}`), (snapshot) => {
+					setTypes([]);
+					const data = snapshot.val();
+					if (data !== null) {
+						Object.values(data).map((type) => {
+							setTypes((oldArray) => [...oldArray, type]);
+						});
+					} else {
+						set(ref(db, `/type/${auth.currentUser.uid}`), [
+							"Unspecified",
+							"Urgent",
+							"Chores",
+							"Work",
+							"Personal",
+							"Assignment",
+						]);
 					}
 				});
 			} else if (!user) {
@@ -75,11 +107,32 @@ export default function Homepage() {
 				moment(todoTime).format("LLL") === moment(todoEndTime).format("LLL"),
 			startTime: moment(todoTime).format("LLL"),
 			endTime: moment(todoEndTime).format("LLL"),
+			type: type !== "" ? type : "Unspecified",
 		});
 		setTodo("");
 		setValue(0);
 		setToDoTime(new Date());
 		setToDoEndTime(new Date());
+		setType("Unspecified");
+	};
+
+	const resetDatabaseTypes = () => {
+		set(ref(db, `/type/${auth.currentUser.uid}`), [
+			"Unspecified",
+			"Urgent",
+			"Chores",
+			"Work",
+			"Personal",
+			"Assignment",
+		]);
+		setTypes([
+			"Unspecified",
+			"Urgent",
+			"Chores",
+			"Work",
+			"Personal",
+			"Assignment",
+		]);
 	};
 
 	const handleChange = (event, newValue) => {
@@ -126,6 +179,125 @@ export default function Homepage() {
 					overflow: "auto",
 				}}
 			>
+				{/* Edit Types Modal */}
+				<Modal
+					open={openType}
+					onClose={handleCloseType}
+					aria-labelledby="modal-modal-title"
+					aria-describedby="modal-modal-description"
+					css={{
+						overflow: "auto",
+					}}
+				>
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+							justifyContent: "space-between",
+							padding: "32px",
+							gap: "32px",
+							position: "relative",
+							margin: "96px auto 32px",
+							marginTop: "96px",
+							marginBottom: "32px",
+							maxWidth: "520px",
+							backgroundColor: "white",
+							boxShadow: "0px 2px 12px rgba(0, 0, 0, 0.1)",
+							borderRadius: "16px",
+						}}
+					>
+						<div
+							style={{
+								border: "1px solid lightgrey",
+								backgroundColor: "lightgrey",
+								width: "32px",
+								height: "32px",
+								borderRadius: "16px",
+								fontSize: 20,
+								alignSelf: "center",
+								position: "absolute",
+								top: "5%",
+								right: "5%",
+								cursor: "pointer",
+							}}
+						>
+							<CloseIcon
+								style={{
+									position: "relative",
+									top: "4px",
+									left: "4px",
+								}}
+								onClick={handleCloseType}
+							></CloseIcon>
+						</div>
+						<div
+							style={{
+								whiteSpace: "pre-wrap",
+								textAlign: "center",
+								fontSize: "24px",
+								marginBottom: 0,
+							}}
+						>
+							Type Edit {"\n"}
+							<span style={{ fontSize: "20px" }}>
+								You Can Add/Remove Types Here!
+							</span>
+						</div>
+
+						<div style={{ width: "100%" }}>
+							<Stack spacing={1} sx={{ width: "80%", margin: "0 auto" }}>
+								{types.map
+									? types.map((type) => (
+											<Chip
+												label={type}
+												onDelete={() => {
+													// remove the type from the types array
+													const newTypes = types.filter((t) => t !== type);
+													setTypes(newTypes);
+												}}
+												color="primary"
+												variant="contained"
+											/>
+									  ))
+									: null}
+							</Stack>
+						</div>
+
+						<div>
+							<Tooltip title="Default Types: [Unspecified, Urgent, Chores, Work, Personal, Assignment]">
+								<Button
+									variant="contained"
+									color="error"
+									onClick={resetDatabaseTypes}
+									startIcon={<DeleteIcon />}
+								>
+									Reset To Default Types (No Undo)
+								</Button>
+							</Tooltip>
+						</div>
+					</div>
+				</Modal>
+
+				<Fab
+					color="primary"
+					aria-label="edit"
+					onClick={(e) => {
+						e.preventDefault();
+						handleOpenType();
+					}}
+					style={{
+						margin: 0,
+						top: "auto",
+						right: 30,
+						bottom: 20,
+						left: "auto",
+						position: "fixed",
+					}}
+				>
+					<EditIcon />
+				</Fab>
+
 				<div
 					style={{
 						position: "absolute",
@@ -143,7 +315,7 @@ export default function Homepage() {
 									fontFamily: "roboto",
 								}}
 							>
-								Enter To Do Item Here
+								Enter To Do Item Here {props.test}
 							</InputLabel>
 							<FilledInput
 								style={{
@@ -205,7 +377,6 @@ export default function Homepage() {
 							</div>
 						</>
 					</div>
-
 					<div
 						style={{
 							display: "flex",
@@ -241,6 +412,26 @@ export default function Homepage() {
 							}}
 							renderInput={(params) => <TextField {...params} />}
 						/>
+						<FormControl sx={{ minWidth: "30%" }}>
+							<InputLabel>Task Type</InputLabel>
+							<Select
+								sx={{ width: "100%", minWidth: "100%" }}
+								defaultValue="Unspecified"
+								value={type}
+								onChange={(e) => {
+									setType(e.target.value);
+								}}
+							>
+								{types.map((t) => (
+									<MenuItem
+										sx={{ width: "100%", minWidth: "100%", opacity: 0.9 }}
+										value={t}
+									>
+										{t}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
 					</div>
 				</div>
 				<div
