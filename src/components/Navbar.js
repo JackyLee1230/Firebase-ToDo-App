@@ -63,8 +63,14 @@ function Navbar() {
 	}));
 
 	const logoutHover = useHover(
-		{ opacity: 0.7, marginLeft: "auto", cursor: "pointer", gap: "5px" },
-		{ marginLeft: "auto", cursor: "pointer", gap: "5px" }
+		{
+			opacity: 0.7,
+			marginLeft: "auto",
+			cursor: "pointer",
+			gap: "5px",
+			fontFamily: "Roboto",
+		},
+		{ marginLeft: "auto", cursor: "pointer", gap: "5px", fontFamily: "Roboto" }
 	);
 
 	return (
@@ -72,7 +78,7 @@ function Navbar() {
 			{user ? (
 				<AppBar position="absokute" style={{ positionAbsoltue: "0 0" }}>
 					<Toolbar>
-						<Typography variant="h6">
+						<Typography variant="h6" style={{ fontFamily: "Roboto" }}>
 							Todo App: Built With Firebase and React.JS with MaterialUI
 						</Typography>
 						{user && (

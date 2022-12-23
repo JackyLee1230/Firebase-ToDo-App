@@ -76,14 +76,26 @@ const ToDoCard = (props) => {
 					</>
 				) : (
 					<div style={{ display: "flex", flexDirection: "row" }}>
-						{todoItem.todo}
+						<div
+							style={{
+								fontWeight: "normal",
+								fontFamily: "Roboto",
+								color: "black",
+							}}
+						>
+							Task: {todoItem.todo}
+						</div>
 						{todoItem.noTime === false &&
 						todoItem.value !== 100 &&
 						moment().isAfter(todoItem.endTime, "minute") ? (
 							<p style={{ color: "red" }}>&nbsp;&nbsp;Failed!</p>
 						) : todoItem.noTime === false && todoItem.value === 100 ? (
 							<p style={{ color: "green" }}>&nbsp;&nbsp;Success!</p>
-						) : null}
+						) : (
+							<p style={{ color: "rgb(0, 153, 255)" }}>
+								&nbsp;&nbsp;In Progress!
+							</p>
+						)}
 					</div>
 				)}
 
@@ -97,8 +109,12 @@ const ToDoCard = (props) => {
 								flexDirection: "column",
 							}}
 						>
-							<div>Start Time: {todoItem.startTime}</div>
-							<div>End Time: {todoItem.endTime}</div>
+							<div style={{ fontFamily: "Roboto" }}>
+								Start Time: {todoItem.startTime}
+							</div>
+							<div style={{ fontFamily: "Roboto" }}>
+								End Time: {todoItem.endTime}
+							</div>
 						</div>
 					) : (
 						<div
@@ -109,8 +125,12 @@ const ToDoCard = (props) => {
 								flexDirection: "column",
 							}}
 						>
-							<div>Added Time: {todoItem.startTime}</div>
-							<div>No Specified Start & End Time</div>
+							<div style={{ fontFamily: "Roboto" }}>
+								Added Time: {todoItem.startTime}
+							</div>
+							<div style={{ fontFamily: "Roboto" }}>
+								No Specified Start & End Time
+							</div>
 						</div>
 					)}
 				</div>
@@ -133,11 +153,11 @@ const ToDoCard = (props) => {
 									gap: "5px",
 								}}
 							>
-								<p style={{ color: "green" }}> {todoItem.value}%</p>
+								<div style={{ color: "green" }}>&nbsp;{todoItem.value}%</div>
 								<ThumbUpOffAltIcon />
 							</div>
 						) : (
-							<p style={{ color: "red" }}> {todoItem.value}%</p>
+							<p style={{ color: "red" }}>&nbsp;{todoItem.value}%</p>
 						)}
 					</p>
 				)}
@@ -203,7 +223,10 @@ const ToDoCard = (props) => {
 				<DeleteIcon
 					fontSize="large"
 					onClick={() => handleDelete(todoItem.tempUUID)}
-					className="delete-button"
+					style={{
+						cursor: "pointer",
+						marginLeft: "10px",
+					}}
 				/>
 			</div>
 		</div>

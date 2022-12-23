@@ -52,7 +52,7 @@ export default function Homepage() {
 			} else if (!user) {
 				navigate("/");
 			}
-			document.title = `ToDo App: {user.displayName}`;
+			document.title = `ToDo App: ${user.displayName}`;
 		});
 	}, []);
 
