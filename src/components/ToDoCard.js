@@ -18,7 +18,6 @@ const ToDoCard = (props) => {
 	const [todo, setTodo] = useState(todoItem.todo);
 	const [oldTodo, setOldTodo] = useState(todoItem.todo);
 	const [value, setValue] = useState(todoItem.value);
-	const [tempUUID, setTempUUID] = useState(UUID);
 
 	const handleEditConfirm = () => {
 		update(ref(db, `/${auth.currentUser.uid}/${UUID}`), {
@@ -38,7 +37,6 @@ const ToDoCard = (props) => {
 	const handleUpdate = (todoItem) => {
 		setIsEdit(true);
 		setTodo(todo);
-		setTempUUID(UUID);
 		setValue(value);
 	};
 
@@ -55,6 +53,7 @@ const ToDoCard = (props) => {
 			style={{
 				display: "flex",
 				width: "80%",
+				margin: "0 auto",
 				alignItems: "center",
 				flexDirection: "row",
 				marginBottom: "10px",
@@ -175,19 +174,28 @@ const ToDoCard = (props) => {
 					<EditIcon
 						fontSize="large"
 						onClick={() => handleUpdate(todoItem)}
-						className="edit-button"
+						style={{
+							cursor: "pointer",
+							marginLeft: "10px",
+						}}
 					/>
 				) : (
 					<>
 						<CheckIcon
 							fontSize="large"
 							onClick={handleEditConfirm}
-							className="edit-button"
+							style={{
+								cursor: "pointer",
+								marginLeft: "10px",
+							}}
 						/>
 						<CancelIcon
 							fontSize="large"
 							onClick={handleEditCancel}
-							className="edit-button"
+							style={{
+								cursor: "pointer",
+								marginLeft: "10px",
+							}}
 						/>
 					</>
 				)}

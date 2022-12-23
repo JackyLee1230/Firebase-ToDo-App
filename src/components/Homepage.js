@@ -17,10 +17,6 @@ import {
 	FilledInput,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import LogoutIcon from "@mui/icons-material/Logout";
-import CheckIcon from "@mui/icons-material/Check";
 import Stack from "@mui/material/Stack";
 import Slider from "@mui/material/Slider";
 import Navbar from "./Navbar";
@@ -49,15 +45,15 @@ export default function Homepage() {
 					const data = snapshot.val();
 					if (data !== null) {
 						Object.values(data).map((todo) => {
-							setTodos((oldArray) => [...oldArray, todo]);
+							setTodos((oldArray) => [todo, ...oldArray]);
 						});
 					}
 				});
 			} else if (!user) {
 				navigate("/");
 			}
+			document.title = `ToDo App: {user.displayName}`;
 		});
-		document.title = "ToDo App";
 	}, []);
 
 	useEffect(() => {
@@ -91,7 +87,9 @@ export default function Homepage() {
 	};
 
 	return (
-		<>
+		<div
+			style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+		>
 			<Snackbar
 				open={endTimeError}
 				autoHideDuration={10000}
@@ -111,7 +109,23 @@ export default function Homepage() {
 				</Alert>
 			</Snackbar>
 			<Navbar />
-			<div className="homepage">
+			<div
+				className="homepage"
+				style={{
+					border: "blue 1px solid",
+					display: "flex",
+					flex: 1,
+					alignItems: "center",
+					justifyContent: "center",
+					flexDirection: "column",
+					position: "relative",
+					background:
+						"linear-gradient(122.19deg, #b0e5f5 1.89%, #785ce7 113.56%)",
+					height: "93.4vh",
+					width: "99.92%",
+					overflow: "auto",
+				}}
+			>
 				<div
 					style={{
 						position: "absolute",
@@ -229,12 +243,22 @@ export default function Homepage() {
 						/>
 					</div>
 				</div>
-				{todos.map((todo) => (
-					<>
-						<ToDoCard UUID={todo.uuid} todoItem={todo} />
-					</>
-				))}
+				<div
+					style={{
+						// border: "grey 2px solid",
+						borderRadius: "12px",
+						width: "100%",
+						position: "absolute",
+						top: "28%",
+					}}
+				>
+					{todos.map((todo) => (
+						<>
+							<ToDoCard UUID={todo.uuid} todoItem={todo} />
+						</>
+					))}
+				</div>
 			</div>
-		</>
+		</div>
 	);
 }
