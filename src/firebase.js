@@ -18,7 +18,7 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 
 initializeAppCheck(app, {
-	provider: new ReCaptchaV3Provider("6Le0oqMjAAAAAHQRLAcQ5TBfhUgVlvX2UV-gNuns"),
+	provider: new ReCaptchaV3Provider("6LezoqMjAAAAAGW_JevO9n8dKl36xnxPdu1YH1L2"),
 });
 
 export const analytics = getAnalytics(app);
