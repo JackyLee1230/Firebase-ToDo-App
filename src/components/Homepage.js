@@ -155,6 +155,13 @@ export default function Homepage(props) {
 		<div
 			style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
 		>
+			<head>
+				<script
+					async
+					src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2310042231975806"
+					crossorigin="anonymous"
+				></script>
+			</head>
 			<Snackbar
 				open={endTimeError}
 				autoHideDuration={10000}
