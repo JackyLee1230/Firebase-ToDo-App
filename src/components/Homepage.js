@@ -139,13 +139,19 @@ export default function Homepage(props) {
 	};
 
 	const ModalStyles = (theme) => ({
-		paper: {
+		root: {
 			position: "absolute",
 			width: 400,
 			backgroundColor: "red",
 			border: "2px solid #000",
 			boxShadow: theme.shadows[5],
 			padding: theme.spacing(2, 4, 3),
+			[theme.breakpoints.down("md")]: {
+				marginTop: 0,
+			},
+			[theme.breakpoints.up("md")]: {
+				marginTop: 100,
+			},
 		},
 	});
 
@@ -232,7 +238,6 @@ export default function Homepage(props) {
 							gap: "32px",
 							position: "relative",
 							margin: "96px auto 32px",
-							marginTop: "96px",
 							marginBottom: "32px",
 							maxWidth: "520px",
 							backgroundColor: "white",

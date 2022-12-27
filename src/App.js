@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import Homepage from "./components/Homepage";
 import Navbar from "./components/Navbar";
-// import Type from "./components/Type";
+import Login from "./components/Login";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 
@@ -14,9 +14,9 @@ function App() {
 			<div className="app">
 				<Router>
 					<Routes>
-						<Route path="/" element={<Welcome />} />
+						{/* <Route path="/" element={<Welcome />} /> */}
+						<Route path="/" element={<Login />} />
 						<Route path="/homepage" element={<Homepage />} />
-						{/* <Route path="/type" element={<Type />} /> */}
 					</Routes>
 				</Router>
 			</div>
