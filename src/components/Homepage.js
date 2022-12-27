@@ -20,6 +20,7 @@ import {
 	Select,
 	MenuItem,
 	Chip,
+	useTheme,
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import AddIcon from "@mui/icons-material/Add";
@@ -51,6 +52,7 @@ export default function Homepage(props) {
 	const [openType, setOpenType] = useState(false);
 	const handleOpenType = () => setOpenType(true);
 	const handleCloseType = () => setOpenType(false);
+	const theme = useTheme();
 
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
@@ -136,6 +138,17 @@ export default function Homepage(props) {
 		]);
 	};
 
+	const ModalStyles = (theme) => ({
+		paper: {
+			position: "absolute",
+			width: 400,
+			backgroundColor: "red",
+			border: "2px solid #000",
+			boxShadow: theme.shadows[5],
+			padding: theme.spacing(2, 4, 3),
+		},
+	});
+
 	const writeTypesToDatabase = () => {
 		if (newType === "") return;
 		setTypes([...types, newType]);
@@ -195,7 +208,7 @@ export default function Homepage(props) {
 						"linear-gradient(122.19deg, #b0e5f5 1.89%, #785ce7 113.56%)",
 					height: "93.4vh",
 					width: "99.92%",
-					overflow: "auto",
+					overflow: "scroll",
 				}}
 			>
 				{/* Edit Types Modal */}
@@ -204,8 +217,9 @@ export default function Homepage(props) {
 					onClose={handleCloseType}
 					aria-labelledby="modal-modal-title"
 					aria-describedby="modal-modal-description"
-					css={{
-						overflow: "auto",
+					sx={{
+						overflow: "scroll",
+						ModalStyles,
 					}}
 				>
 					<div

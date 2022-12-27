@@ -9,12 +9,12 @@ export default function Welcome() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		document.title = "ToDo App Sign In";
 		auth.onAuthStateChanged((user) => {
 			if (user) {
 				navigate("/homepage");
 			}
 		});
-		document.title = "ToDo App Sign In";
 	}, []);
 
 	const googlePopupSignIn = () => {
