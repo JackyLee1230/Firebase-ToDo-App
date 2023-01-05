@@ -47,6 +47,8 @@ export default function Homepage(props) {
 	const [todoTime, setToDoTime] = useState(new Date());
 	const [todoEndTime, setToDoEndTime] = useState(new Date());
 	const [endTimeError, setEndTimeError] = useState(false);
+	const [newTypeError, setNewTypeError] = useState(false);
+	const [newTypeTemp, setNewTypeTemp] = useState("");
 	const navigate = useNavigate();
 
 	const [openType, setOpenType] = useState(false);
@@ -157,6 +159,12 @@ export default function Homepage(props) {
 
 	const writeTypesToDatabase = () => {
 		if (newType === "") return;
+		if (types.includes(newType)) {
+			setNewTypeError(true);
+			setNewTypeTemp(newType);
+			setNewType("");
+			return;
+		}
 		setTypes([...types, newType]);
 		set(ref(db, `/type/${auth.currentUser.uid}`), [...types, newType]);
 		setNewType("");
@@ -181,6 +189,24 @@ export default function Homepage(props) {
 					crossorigin="anonymous"
 				></script>
 			</head>
+			<Snackbar
+				open={newTypeError}
+				autoHideDuration={10000}
+				onClose={() => {
+					setNewTypeError(false);
+				}}
+				message={`The Type [${newTypeTemp}] already exists!`}
+			>
+				<Alert
+					onClose={() => {
+						setNewTypeError(false);
+					}}
+					severity="error"
+					sx={{ width: "100%", fontWeight: "bold" }}
+				>
+					The Type `{newTypeTemp}` already exists!
+				</Alert>
+			</Snackbar>
 			<Snackbar
 				open={endTimeError}
 				autoHideDuration={10000}
