@@ -45,6 +45,10 @@ $ npm install
 
 # Start the App
 $ npm start
+
+# Test Progressive Web App
+$ npm run build
+$ serve -s build
 ```
 
 ## Technologies
@@ -56,6 +60,9 @@ The following software/packages/frameworks are used:
 - [React.JS](https://reactjs.org/)
 - [Material-UI](https://mui.com/)
 - [Vercel](https://vercel.com/)
+
+## Progressive Web App (PWA)
+PWA Has been Added to support all Modern Browsers.
 
 ## License 
 MIT License
