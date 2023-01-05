@@ -47,6 +47,13 @@ function Login() {
 
 	return (
 		<>
+			<head>
+				<script
+					async
+					src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2310042231975806"
+					crossorigin="anonymous"
+				></script>
+			</head>
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
 				<Box

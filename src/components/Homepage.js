@@ -309,7 +309,7 @@ export default function Homepage(props) {
 										width: "100%",
 										fontSize: "25px",
 										margin: "0 auto",
-										borderRadius: "16px 0px 16px 0px",
+										borderRadius: "16px 16px 0px 0px",
 										backgroundColor: "lightgrey",
 									}}
 									maxRows={1}
@@ -321,7 +321,7 @@ export default function Homepage(props) {
 									endAdornment={
 										<>
 											<InputAdornment position="end">
-												{todo !== "" && (
+												{newType !== "" && (
 													<IconButton
 														aria-label="Add New Type"
 														onClick={writeTypesToDatabase}
